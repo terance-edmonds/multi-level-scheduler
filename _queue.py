@@ -6,13 +6,12 @@ console = Console()
 # quantum seconds
 quantum = {
     "queue": 20, # time period per queue (seconds)
-    "round_robin": 5, # round robin process time period (seconds)
+    "rr": 5, # round robin process time period (seconds)
     "fcfs": 20, # fcfs process time period (seconds)
     "sjf": 20, # sjf process time period (seconds)
 }
 # current queue
 queue_no = 1
-display_title=False
 
 # queues
 queue_1 = []
@@ -22,7 +21,7 @@ queue_4 = []
 
 # initiate the queues
 def init(pool):
-    global queue_no, queue_1, queue_2, queue_3, queue_4
+    global queue_no, queue_1, queue_2, queue_3, queue_4, quantum
 
     for p in pool:
         # if queue priority is 1 set to queue 1
@@ -62,6 +61,9 @@ def init(pool):
         elif(queue_no == 4 and len(queue_4) > 0):
             fcfs(queue_4)
         
+        # reset queue quantum
+        quantum["queue"]= 20
+        # switch to next queue
         queue_no = queue_no % 4 + 1
     
     # log the started time
@@ -73,60 +75,52 @@ def init(pool):
 
 # round robin schedular
 def rr(queue):
-    if(display_title): console.log(f"[bold yellow]Round Robin Schedular - (Queue {queue_no})\n")
-
-    for i, p in enumerate(queue):
-        _time = quantum["round_robin"]
-
-        if(p.burst < _time):
-            _time = p.burst
-
-        state = _process.run(_time, p)
-
-        wrap(p, _time, queue, state, i)
+    execute(queue, "rr")
 
 # shortest job first schedular
 def sjf(queue):
-    if(display_title): console.log(f"[bold yellow]Shortest Job First Schedular - (Queue {queue_no})\n")
-
     # sort list by `burst` in the natural order
-    queue.sort(key=lambda x: x.burst)
-
-    for i, p in enumerate(queue):    
-        _time = quantum["sjf"]
-        
-        if(p.burst < _time):
-            _time = p.burst
-
-        state = _process.run(_time, p)
-
-        wrap(p, _time, queue, state, i)
+    queue.sort(key=lambda x: x.burst)  
+    execute(queue, "sjf")
 
 # first come fist server schedular
 def fcfs(queue):
-    if(display_title): console.log(f"[bold yellow]First Come First Serve Schedular - (Queue {queue_no})\n")
+    execute(queue, "fcfs")
+    
+# execute the scheduler process
+def execute(queue, scheduler):
+    while len(queue) > 0 and quantum["queue"] > 0:    
+        p = queue[0]
+        _time = cal_time(quantum[scheduler], p)
 
-    for i, p in enumerate(queue):    
-        _time = quantum["fcfs"]
-        
-        if(p.burst < _time):
+        completed = _process.run(_time, p)
+        end(p, _time, queue, completed)
+
+# wrap the end of process
+def end(p, _time, queue, completed):
+    global quantum
+
+    # display process burst time
+    console.log(f"{p.name} burst time (s): {_time}")
+
+    # display the process status
+    # _process.display(p, _time, queue_no)
+    
+    # remove the completed queue from the queue
+    if(completed):         
+        queue.pop(0)
+
+    # reduce the queue time
+    quantum["queue"] -= _time
+
+# calculate time
+def cal_time(_time, p):
+    global quantum
+
+    if(p.burst < _time):
             _time = p.burst
-
-        state = _process.run(_time, p)
-
-        wrap(p, _time, queue, state, i)
-
-# wrap the end of queue process
-def wrap(p, _time, queue, state, index):
-    if(state): 
-        p.burst -= _time
-
-        if(p.burst == 0):
-            # remove the process from queue
-            queue.pop(index)
         
-        console.log(f"{p.name} burst time (s): {_time}")
-        # display the process status
-        # _process.display(p, _time, queue_no)
-    else:
-        console.log(f"[red] something went wrong with {p.name} process")
+    if(_time > quantum["queue"]):
+        _time = quantum["queue"]
+
+    return _time

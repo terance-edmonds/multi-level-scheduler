@@ -45,8 +45,12 @@ def run(seconds, process):
         while not progress.finished:
             progress.update(task, advance=t_sleep)
             time.sleep(t_sleep)
-        
-    return 1
+    
+    process.burst -= seconds
+    if(process.burst == 0):
+        return 1 # process completed
+    
+    return 0 # process on going
 
 # display process status
 def display(p, _time, queue_no):
