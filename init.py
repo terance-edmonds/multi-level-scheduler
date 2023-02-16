@@ -12,26 +12,26 @@ pool = []
 
 # test case pools
 pool_1 = [
-    _process.Process("P1.1", 4, 1),
-    _process.Process("P1.2", 4, 1),
-    _process.Process("P1.3", 4, 1),
-    _process.Process("P1.4", 4, 1),
-    _process.Process("P1.5", 4, 1),
-    _process.Process("P1.6", 4, 1),
-    _process.Process("P2.1", 5, 2),
-    _process.Process("P2.2", 2, 2),
-    _process.Process("P2.3", 2, 2),
-    _process.Process("P2.4", 2, 2),
-    _process.Process("P2.5", 2, 2),
-    _process.Process("P3.1", 5, 3),
-    _process.Process("P4.1", 10, 4),
+    _process.Process("P1.1", 4, 0),
+    _process.Process("P1.2", 4, 0),
+    _process.Process("P1.3", 4, 0),
+    _process.Process("P1.4", 4, 0),
+    _process.Process("P1.5", 4, 0),
+    _process.Process("P1.6", 4, 0),
+    _process.Process("P2.1", 5, 1),
+    _process.Process("P2.2", 2, 1),
+    _process.Process("P2.3", 2, 1),
+    _process.Process("P2.4", 2, 1),
+    _process.Process("P2.5", 2, 1),
+    _process.Process("P3.1", 5, 2),
+    _process.Process("P4.1", 10, 3),
 ]
 
 pool_2 = [
-    _process.Process("P1.1", 4, 1),
-    _process.Process("P2.1", 5, 2),
+    _process.Process("P1.1", 4, 0),
+    _process.Process("P2.1", 5, 1),
     _process.Process("P3.1", 2, 2),
-    _process.Process("P4.1", 5, 4),
+    _process.Process("P4.1", 5, 3),
 ]
 
 # test with pool 2
@@ -39,10 +39,10 @@ pool_2 = [
 
 def summarize(pool, end=False):
     queue_names = {
-        1: "round robin",
+        0: "round robin",
+        1: "shortest job first",
         2: "shortest job first",
-        3: "shortest job first",
-        4: "first come first serve",
+        3: "first come first serve",
     }
 
     table = Table(title="Processes Summary")
@@ -84,7 +84,7 @@ def init():
         
         # store the created process in the pool
         pool.append(p)
-   
+  
 
     # display a summary of processes
     summarize(pool)

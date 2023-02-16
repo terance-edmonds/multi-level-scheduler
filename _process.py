@@ -54,10 +54,10 @@ def run(_time, p):
 # display process status
 def display(p, _time, queue_no):
     queue_names = {
-        1: "round robin",
+        0: "round robin",
+        1: "shortest job first",
         2: "shortest job first",
-        3: "shortest job first",
-        4: "first come first serve",
+        3: "first come first serve",
     }
     status = "on going"
 
