@@ -32,7 +32,9 @@ python init.py
 ```bash
 python test.py pool_1
 ```
-***pool_1*** can be replaced with ***pool_2*** or ***pool_3***. You can write pools in `test.py` and execute them with an the pool name as an argument.
+In above code ***pool_1*** can be replaced with ***pool_2*** or ***pool_3***.
+<br/>
+To test with other process data, create `<<pool_name>>.json` files with process data in `tests` folder and execute them with a the file name as an argument.
 
 ### Step by step time processed application
 Run the below codes in your terminal
@@ -49,4 +51,6 @@ python init.py
 ```bash
 python test.py pool_1
 ```
-***pool_1*** can be replaced with ***pool_2*** or ***pool_3***. You can write pools in `test.py` and execute them with an the pool name as an argument.
+In above code ***pool_1*** can be replaced with ***pool_2*** or ***pool_3***.
+<br/>
+To test with other process data, create `<<pool_name>>.json` files with process data in `tests` folder and execute them with a the file name as an argument.
