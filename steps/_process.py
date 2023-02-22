@@ -27,8 +27,10 @@ def create(id):
     queue = int(input("Enter process queue: "))
 
     # check if the queue number is valid
-    if(queue < 0 and queue > 4):
-        print("queue is not available, Queues - (1, 2, 3, 4)")
+    if(queue < 0 or queue > 4):
+        while (queue < 0 or queue > 4):
+            print("queue is not available, Queues - (1, 2, 3, 4)")
+            queue = int(input("Enter process queue: "))
 
     # create a process return it
     return Process(id, burst, queue)

@@ -28,11 +28,9 @@ def create(id):
     queue = int(input("Enter process queue: "))
 
     # check if the queue number is valid
-    if(queue < 0 or queue > 4):
-        while (queue < 0 or queue > 4):
-            print("queue is not available, Queues - (1, 2, 3, 4)")
-            queue = int(input("Enter process queue: "))
-    
+    if(queue < 0 and queue > 4):
+        print("queue is not available, Queues - (1, 2, 3, 4)")
+
     # create a process return it
     return Process(id, burst, queue)
 
@@ -66,9 +64,8 @@ def display(p, _time, queue_no):
     table.add_column("Attribute", style="cyan", no_wrap=True, min_width=15)
     table.add_column("Value", justify="right", style="green", min_width=25)
 
-    table.add_row("id", f"{p.id}")
-    table.add_row("burst time (s)", f"{p.init_burst}")
-    table.add_row("remaining burst time (s)", f"{p.burst}")
+    table.add_row("name", f"{p.id}")
+    table.add_row("burst time (s)", f"{p.burst}")
     table.add_row("scheduler", f"{queue_names[queue_no]}")
     table.add_row("state", status)
     table.add_row("last process duration (s)", f"{_time}")
