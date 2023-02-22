@@ -22,20 +22,31 @@ processes along with their priority associated with each queue.
 Run the below codes in your terminal
 
 ```bash
-cd path_to_your_folder/theory
-````
-
-```bash
-python init.py
-```
-
-### Step by step time processed application
-Run the below codes in your terminal
-
-```bash
 cd path_to_your_folder
 ```
 
 ```bash
 python init.py
 ```
+#### Test runs
+```bash
+python test.py pool_1
+```
+***pool_1*** can be replaced with ***pool_2*** or ***pool_3***. You can write pools in `test.py` and execute them with an the pool name as an argument.
+
+### Step by step time processed application
+Run the below codes in your terminal
+
+```bash
+cd path_to_your_folder/steps
+```
+
+```bash
+python init.py
+```
+
+#### Test runs
+```bash
+python test.py pool_1
+```
+***pool_1*** can be replaced with ***pool_2*** or ***pool_3***. You can write pools in `test.py` and execute them with an the pool name as an argument.

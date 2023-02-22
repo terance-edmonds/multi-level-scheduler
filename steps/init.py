@@ -1,7 +1,10 @@
-import _process
-import _queue
 from rich.table import Table
 from rich.console import Console
+
+# import process features & functions
+import _process
+# import queue features & functions
+import _queue
 
 console = Console()
 
@@ -10,34 +13,7 @@ num_processes = 0
 # a list of processes
 pool = []
 
-# test case pools
-pool_1 = [
-    _process.Process("P1.1", 4, 0),
-    _process.Process("P1.2", 4, 0),
-    _process.Process("P1.3", 4, 0),
-    _process.Process("P1.4", 4, 0),
-    _process.Process("P1.5", 4, 0),
-    _process.Process("P1.6", 4, 0),
-    _process.Process("P2.1", 5, 1),
-    _process.Process("P2.2", 2, 1),
-    _process.Process("P2.3", 2, 1),
-    _process.Process("P2.4", 2, 1),
-    _process.Process("P2.5", 2, 1),
-    _process.Process("P3.1", 5, 2),
-    _process.Process("P4.1", 10, 3),
-]
-
-pool_2 = [
-    _process.Process("P1.1", 4, 0),
-    _process.Process("P2.1", 5, 1),
-    _process.Process("P3.1", 2, 2),
-    _process.Process("P4.1", 5, 3),
-]
-
-# test with pool 2
-# pool = pool_2
-
-def summarize(pool, end=False):
+def summarize(pool, end=False, title="Processes Summary"):
     queue_names = {
         0: "round robin",
         1: "shortest job first",
@@ -45,7 +21,7 @@ def summarize(pool, end=False):
         3: "first come first serve",
     }
 
-    table = Table(title="Processes Summary")
+    table = Table(title=title)
 
     table.add_column("PID", style="cyan", no_wrap=True, min_width=15)
     table.add_column("Burst time", justify="right", style="green", min_width=25)
@@ -84,14 +60,17 @@ def init():
         
         # store the created process in the pool
         pool.append(p)
-   
+  
 
     # display a summary of processes
     summarize(pool)
     # initiate queue scheduler
     _queue.init(pool)
 
-    summarize(pool, end=True)
+     # arrange the pool in ascending of completion time
+    pool.sort(key=lambda x: x.complete_time)
+    #  display a summary of completed processes
+    summarize(pool , end=True, title="Processes Completion Summary")
 
 
 # start the app

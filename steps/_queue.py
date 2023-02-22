@@ -1,5 +1,7 @@
-import _process
 from rich.console import Console
+
+# import process features & functions
+import _process
 
 console = Console()
 
@@ -39,6 +41,12 @@ def init(pool):
         else:
             print(f"%s process is not allocated to any queue", str(p.id))
 
+    # log the started time
+    console.log("[bold purple]================================")
+    console.log("[bold purple]        Started Processing      ")
+    console.log("[bold purple]================================")
+    console.log("")
+
     # initiate queue processing
     while (
         len(queue_0) > 0 or
@@ -59,6 +67,12 @@ def init(pool):
         quantum["queue"]= 20
         # switch to next queue
         queue_no = (queue_no + 1) % 4
+    
+    # log the started time
+    console.log("")
+    console.log("[bold purple]================================")
+    console.log("[bold purple]       Finished Processing      ")
+    console.log("[bold purple]================================")
        
 
 # round robin schedular
@@ -87,6 +101,9 @@ def execute(queue, scheduler):
 # wrap the end of process
 def end(p, _time, queue, completed):
     global quantum
+
+    # display process burst time
+    console.log(f"{p.id} burst time (s): {_time}")
 
     # display the process status
     # _process.display(p, _time, queue_no)

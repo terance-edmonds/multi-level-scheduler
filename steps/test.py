@@ -1,15 +1,14 @@
+import sys
+import json
+import os.path
 from rich.table import Table
 from rich.console import Console
 
-# import process features & functions
 import _process
-# import queue features & functions
 import _queue
 
 console = Console()
 
-# number of processes
-num_processes = 0
 # a list of processes
 pool = []
 
@@ -49,19 +48,6 @@ def summarize(pool, end=False, title="Processes Summary"):
     console.print(table, end="\n")
 
 def init():
-    # get the number of processes from the user
-    global num_processes
-    num_processes = int(input("Enter number of processes: "))
-    print("")
-
-    # create processes and store in the processes pool
-    for i in range(num_processes):
-        p = _process.create("P" + str(i))
-        
-        # store the created process in the pool
-        pool.append(p)
-   
-
     # display a summary of processes
     summarize(pool)
     # initiate queue scheduler
@@ -74,4 +60,28 @@ def init():
 
 
 # start the app
-init()
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        name = sys.argv[1]
+        file_path = f'../tests/{name}.json'
+        
+        #  exit if the file does not exist
+        if (os.path.exists(file_path) == False):
+            console.print(f"[red bold]Test file '{name}.json' does not exist in 'tests' folder")
+            exit()
+        
+        # open JSON file
+        with open(file_path, 'r') as f:
+            # read from json file
+            data = json.load(f)['data']
+            # append to pool as a process
+            for p in data:
+                pool.append(
+                    _process.Process(
+                        p['id'], 
+                        p['burst'], 
+                        p['queue'])
+                    )
+
+    console.print(f"[green bold]Test file: {name}.json")
+    init()

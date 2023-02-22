@@ -1,9 +1,10 @@
-import time
 from rich.console import Console
-from rich.progress import Progress
 from rich.table import Table
 
 console = Console()
+
+# simulate the current time
+current_time = 0
 
 # process structure
 class Process:
@@ -18,8 +19,8 @@ class Process:
         self.burst = burst
         self.queue = queue
         self.init_burst = burst
-        self.arrival_time = time.time()
-        self.complete_time = time.time()
+        self.arrival_time = current_time
+        self.complete_time = 0
 
 # get process details from the user and return a process object
 def create(id):
@@ -35,18 +36,12 @@ def create(id):
 
 # run a process
 def run(_time, p):
-    t_sleep = 0.1
-
-    with Progress() as progress:
-        task = progress.add_task(f"[red]Processing {p.id}...", total=_time)
-
-        while not progress.finished:
-            progress.update(task, advance=t_sleep)
-            time.sleep(t_sleep)
+    global current_time
+    current_time += _time
     
     p.burst -= _time
     if(p.burst == 0):
-        p.complete_time = time.time()
+        p.complete_time = current_time
         return 1 # process completed
     
     return 0 # process on going

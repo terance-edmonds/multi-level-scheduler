@@ -5,9 +5,6 @@ from rich.table import Table
 
 console = Console()
 
-# simulate the current time
-current_time = 0
-
 # process structure
 class Process:
     init_burst = 0
@@ -21,8 +18,8 @@ class Process:
         self.burst = burst
         self.queue = queue
         self.init_burst = burst
-        self.arrival_time = current_time
-        self.complete_time = 0
+        self.arrival_time = time.time()
+        self.complete_time = time.time()
 
 # get process details from the user and return a process object
 def create(id):
@@ -38,12 +35,18 @@ def create(id):
 
 # run a process
 def run(_time, p):
-    global current_time
-    current_time += _time
+    t_sleep = 0.1
+
+    with Progress() as progress:
+        task = progress.add_task(f"[red]Processing {p.id}...", total=_time)
+
+        while not progress.finished:
+            progress.update(task, advance=t_sleep)
+            time.sleep(t_sleep)
     
     p.burst -= _time
     if(p.burst == 0):
-        p.complete_time = current_time
+        p.complete_time = time.time()
         return 1 # process completed
     
     return 0 # process on going
