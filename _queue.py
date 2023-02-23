@@ -62,7 +62,6 @@ def init(pool):
         # switch to next queue
         queue_no = (queue_no + 1) % 4
        
-
 # round robin schedular
 def rr(queue):
     execute(queue, "rr")
@@ -105,7 +104,7 @@ def cal_time(_time, p):
     global quantum
 
     if(p.burst < _time):
-            _time = p.burst
+        _time = p.burst
         
     if(_time > quantum["queue"]):
         _time = quantum["queue"]
