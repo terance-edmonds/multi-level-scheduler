@@ -19,6 +19,36 @@
             "id": "P4",
             "burst": 10,
             "queue": 3
+        },
+        {
+            "id": "P5",
+            "burst": 28,
+            "queue": 3
+        },
+        {
+            "id": "P6",
+            "burst": 48,
+            "queue": 2
+        },
+        {
+            "id": "P7",
+            "burst": 18,
+            "queue": 1
+        },
+        {
+            "id": "P8",
+            "burst": 30,
+            "queue": 3
+        },
+        {
+            "id": "P9",
+            "burst": 65,
+            "queue": 0
+        },
+        {
+            "id": "P10",
+            "burst": 35,
+            "queue": 0
         }
     ]
 }
