@@ -87,15 +87,23 @@ def execute(queue, scheduler):
 
 # wrap the end of process
 def end(p, _time, queue, completed):
-    global quantum
+    global quantum, queue_no
 
     # display the process status
     # _process.display(p, _time, queue_no)
     
-    # remove the completed queue from the queue
-    if(completed):         
+    # if the current process is not completed in round robin 
+    # pop from top and add it to the back of the queue 
+    if(queue_no == 0):
+        if(completed == 0):
+            queue.append(p)
+        
         queue.pop(0)
 
+     # remove the completed process
+    elif(completed):
+        queue.pop(0)
+    
     # reduce the queue time
     quantum["queue"] -= _time
 
